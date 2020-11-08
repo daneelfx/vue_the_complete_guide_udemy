@@ -130,10 +130,12 @@ export default {
   },
   methods: {
     submitForm() {
+      console.log('UserName')
       console.log(this.userName)
       this.userName = ''
       console.log('User age:')
       console.log(this.userAge)
+      console.log('Referrer')
       console.log(this.referrer)
       console.log('Checkboxes:')
       console.log(this.interest)
