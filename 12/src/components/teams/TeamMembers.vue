@@ -9,6 +9,7 @@
         :role="member.role"
       ></user-item>
     </ul>
+    <router-link to="/teams/t2">Go to Team 2</router-link>
   </section>
 </template>
 
@@ -16,6 +17,7 @@
 import UserItem from '../users/UserItem.vue'
 
 export default {
+  props: ['teamId'],
   inject: ['users', 'teams'],
   components: {
     UserItem,
@@ -26,19 +28,33 @@ export default {
       members: [],
     }
   },
+  watch: {
+    teamId(newId) {
+      // if (newRoute.path === '/teams') return
+      this.loadTeamMembers(newId)
+    },
+  },
+  methods: {
+    loadTeamMembers(teamId) {
+      const selectedTeam = this.teams.find(team => team.id === teamId)
+      const members = selectedTeam.members
+
+      const selectedMembers = []
+
+      for (const member of members) {
+        const selectedUser = this.users.find(user => user.id === member)
+        selectedMembers.push(selectedUser)
+      }
+      this.teamName = selectedTeam.name
+      this.members = selectedMembers
+    },
+  },
   created() {
-    const teamId = this.$route.params.teamId
-    const selectedTeam = this.teams.find(team => team.id === teamId)
-    const members = selectedTeam.members
-
-    const selectedMembers = []
-
-    for (const member of members) {
-      const selectedUser = this.users.find(user => user.id === member)
-      selectedMembers.push(selectedUser)
-    }
-    this.teamName = selectedTeam.name
-    this.members = selectedMembers
+    this.loadTeamMembers(this.teamId)
+  },
+  beforeRouteUpdate(_, _2, next) {
+    console.log('COMPONENT beforeRouteUpdate')
+    next()
   },
 }
 </script>

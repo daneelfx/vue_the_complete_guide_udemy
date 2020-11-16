@@ -23,6 +23,14 @@ export default {
       this.$router.push('/teams')
     },
   },
+  beforeRouteEnter(_, _2, next) {
+    console.log('COMPONENT beforeRouteEnter')
+    next()
+  },
+  beforeRouteLeave(_, _2, next) {
+    console.log('COMPONENT beforeRouteLeave')
+    next()
+  },
 }
 </script>
 
